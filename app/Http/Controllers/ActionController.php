@@ -8,6 +8,7 @@
  */
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCouponRequest;
 use App\Models\Coupon;
 use App\Rules\CurrentPassword;
 use App\Rules\ValidCoupon;
@@ -30,23 +31,12 @@ class ActionController extends Controller
 
 
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param \App\Http\Requests\StoreCouponRequest $request
      *
      * @return mixed
-     * @throws \Illuminate\Validation\ValidationException
      */
-    public function action(Request $request) {
-        $user = $request->user();
-
-
-        $this->validate($request,[
-            'coupon' => [
-                'required',
-                $coupon = new ValidCoupon()
-            ]
-        ]);
-
-        $coupon = $coupon->getModel();
+    public function action(StoreCouponRequest $request) {
+        $coupon = $request->getCouponModel();
 
         return back()->withStatus('Coupon '.$coupon->code.' has benn applied to your account.');
     }

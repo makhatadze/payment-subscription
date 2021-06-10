@@ -46,14 +46,6 @@ class ValidCoupon implements Rule
     }
 
     /**
-     * @return \App\Models\Coupon|null
-     */
-    public function getModel(): ?Coupon
-    {
-        return $this->coupon;
-    }
-
-    /**
      * @param $message
      *
      * @return false
