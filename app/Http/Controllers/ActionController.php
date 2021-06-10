@@ -8,6 +8,7 @@
  */
 namespace App\Http\Controllers;
 
+use App\Rules\CurrentPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -38,7 +39,7 @@ class ActionController extends Controller
         $this->validate($request,[
             'password' => [
                 'required',
-                'current_password'
+                new CurrentPassword($user)
             ]
         ]);
 
