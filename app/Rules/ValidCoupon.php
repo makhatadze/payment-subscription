@@ -7,16 +7,16 @@ use Illuminate\Contracts\Validation\Rule;
 
 class ValidCoupon implements Rule
 {
-    private $coupon;
+    protected ?Coupon $coupon;
 
-    protected $message;
+    protected  $message;
 
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($coupon)
+    public function __construct(?Coupon $coupon)
     {
         $this->coupon = $coupon;
     }
@@ -29,17 +29,40 @@ class ValidCoupon implements Rule
      *
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
+        $this->coupon = Coupon::where('code', $value)->first();
+
+
         if (!$this->coupon) {
-            $this->message = 'Coupon not found.';
+            $this->fail('Coupon not found.');
             return false;
         }
         if ($this->coupon->hasExpired()) {
-            $this->message = 'Coupon expired.';
+            $this->fail('Coupon expired.');
             return false;
         }
         return true;
+    }
+
+    /**
+     * @return \App\Models\Coupon|null
+     */
+    public function getModel(): ?Coupon
+    {
+        return $this->coupon;
+    }
+
+    /**
+     * @param $message
+     *
+     * @return false
+     */
+    protected function fail($message): bool
+    {
+        $this->message = $message;
+        return false;
+
     }
 
     /**
@@ -47,7 +70,7 @@ class ValidCoupon implements Rule
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return $this->message;
     }

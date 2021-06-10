@@ -38,15 +38,16 @@ class ActionController extends Controller
     public function action(Request $request) {
         $user = $request->user();
 
-        $coupon = Coupon::where('code',$request->coupon)->first();
 
         $this->validate($request,[
             'coupon' => [
                 'required',
-                new ValidCoupon($coupon)
+                $coupon = new ValidCoupon()
             ]
         ]);
 
-        return back()->withStatus('Passed');
+        $coupon = $coupon->getModel();
+
+        return back()->withStatus('Coupon '.$coupon->code.' has benn applied to your account.');
     }
 }
