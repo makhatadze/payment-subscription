@@ -17,9 +17,9 @@
                         <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                         <div class="col-md-6">
-                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password"  autocomplete="current-password">
+                            <input id="coupon" type="text" class="form-control @error('coupon') is-invalid @enderror" name="coupon">
 
-                            @error('password')
+                            @error('coupon')
                             <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

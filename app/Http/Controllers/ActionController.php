@@ -8,7 +8,9 @@
  */
 namespace App\Http\Controllers;
 
+use App\Models\Coupon;
 use App\Rules\CurrentPassword;
+use App\Rules\ValidCoupon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -36,10 +38,12 @@ class ActionController extends Controller
     public function action(Request $request) {
         $user = $request->user();
 
+        $coupon = Coupon::where('code',$request->coupon)->first();
+
         $this->validate($request,[
-            'password' => [
+            'coupon' => [
                 'required',
-                new CurrentPassword($user)
+                new ValidCoupon($coupon)
             ]
         ]);
 
