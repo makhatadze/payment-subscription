@@ -38,11 +38,7 @@ class ActionController extends Controller
         $this->validate($request,[
             'password' => [
                 'required',
-                function ($attribute, $value, $fail) use($user) {
-                    if(!Hash::check($value,$user->password)) {
-                        $fail('Current password is incorrect');
-                    }
-                }
+                'current_password'
             ]
         ]);
 
